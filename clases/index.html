@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+            integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+            crossorigin="anonymous"
+        />
+        <script src="scripts.js"></script>
+        <title>Prácticas Javascript</title>
+    </head>
+    <body>
+        <div class="container my-5">
+            <h1>Agrega Estudiantes y Profesores</h1>
+            <form class="my-4 form">
+                <input
+                    type="text"
+                    class="form-control mb-2"
+                    name="nombre"
+                    placeholder="Nombre"
+                    value="Juan"
+                />
+                <input
+                    type="number"
+                    class="form-control mb-2"
+                    placeholder="Edad"
+                    name="edad"
+                    value="20"
+                />
+                <select class="form-select mb-2" name="tipo">
+                    <option selected value="estudiante">Estudiante</option>
+                    <option value="profesor">Profesor</option>
+                </select>
+                <button class="btn btn-primary" type="submit" id="btnAgregar">
+                    Agregar
+                </button>
+            </form>
+            <section class="row px-0">
+                <!--ALUMNOS-->
+                <div class="col-6">
+                    <ul id="listadoAlumnos" class="px-0">
+                        <li class="p-2 card p-3">
+                            <div class="form-group mb-2">
+                                <span class="text-primary h5 my-0">Juanito</span
+                                ><span
+                                    class="badge bg-danger ms-2"
+                                    data-estado="suspendido"
+                                    >Suspendido</span
+                                >
+                            </div>
+                            <div class="form-group mb-2">
+                                <span class="categoriaPersona">Estudiante</span>
+                            </div>
+                            <div class="form-group mb-2">
+                                <span class="edadPersona">25 años</span>
+                            </div>
+                            <div class="form-group mt-3">
+                                <button
+                                    class="btn btn-success btnAprobar"
+                                    data-nombre="Juanito"
+                                >
+                                    Aprobar
+                                </button>
+                                <button
+                                    class="btn btn-danger"
+                                    disabled
+                                    data-nombre="Juanito"
+                                >
+                                    Reprobar
+                                </button>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <!--PROFESORES-->
+                <div class="col-6">
+                    <ul id="listadoProfesores" class="px-0">
+                        <li class="p-2 card p-3 bg-black text-light">
+                            <div class="form-group mb-2">
+                                <span class="text-primary h5 my-0 text-light"
+                                    >Pedro</span
+                                >
+                            </div>
+                            <div class="form-group mb-2">
+                                <span class="categoriaPersona">Profesor</span>
+                            </div>
+                            <div class="form-group mb-2">
+                                <span class="edadPersona">50 años</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </section>
+        </div>
+    </body>
+</html>
