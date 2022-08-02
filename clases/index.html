@@ -40,58 +40,85 @@
                 </button>
             </form>
             <section class="row px-0">
-                <!--ALUMNOS-->
+                <!--ESTUDIANTES-->
                 <div class="col-6">
-                    <ul id="listadoAlumnos" class="px-0">
-                        <li class="p-2 card p-3">
-                            <div class="form-group mb-2">
-                                <span class="text-primary h5 my-0">Juanito</span
-                                ><span
-                                    class="badge bg-danger ms-2"
-                                    data-estado="suspendido"
-                                    >Suspendido</span
-                                >
-                            </div>
-                            <div class="form-group mb-2">
-                                <span class="categoriaPersona">Estudiante</span>
-                            </div>
-                            <div class="form-group mb-2">
-                                <span class="edadPersona">25 años</span>
-                            </div>
-                            <div class="form-group mt-3">
-                                <button
-                                    class="btn btn-success btnAprobar"
-                                    data-nombre="Juanito"
-                                >
-                                    Aprobar
-                                </button>
-                                <button
-                                    class="btn btn-danger"
-                                    disabled
-                                    data-nombre="Juanito"
-                                >
-                                    Reprobar
-                                </button>
-                            </div>
-                        </li>
+                    <ul id="listadoEstudiantes" class="px-0">
+                        <template id="liEstudiante">
+                            <li
+                                class="p-2 card p-3 estudiante mb-3"
+                                data-id="0"
+                            >
+                                <input
+                                    type="hidden"
+                                    class="idPersona"
+                                    value="0"
+                                />
+                                <div class="form-group mb-2">
+                                    <span
+                                        class="text-primary h5 my-0 nombrePersona"
+                                        >Juanito</span
+                                    ><span
+                                        class="badge bg-danger ms-2"
+                                        data-id="1"
+                                        >Suspendido</span
+                                    >
+                                </div>
+                                <div class="form-group mb-2">
+                                    <span class="categoriaPersona"
+                                        >Estudiante</span
+                                    >
+                                </div>
+                                <div class="form-group mb-2">
+                                    <span class="edadPersona">25 años</span>
+                                </div>
+                                <div class="form-group mt-3">
+                                    <button
+                                        class="btn btn-success btnAprobar"
+                                        data-nombre="Juanito"
+                                    >
+                                        Aprobar
+                                    </button>
+                                    <button
+                                        class="btn btn-danger"
+                                        disabled
+                                        data-nombre="Juanito"
+                                    >
+                                        Reprobar
+                                    </button>
+                                </div>
+                            </li>
+                        </template>
                     </ul>
                 </div>
                 <!--PROFESORES-->
                 <div class="col-6">
                     <ul id="listadoProfesores" class="px-0">
-                        <li class="p-2 card p-3 bg-black text-light">
-                            <div class="form-group mb-2">
-                                <span class="text-primary h5 my-0 text-light"
-                                    >Pedro</span
-                                >
-                            </div>
-                            <div class="form-group mb-2">
-                                <span class="categoriaPersona">Profesor</span>
-                            </div>
-                            <div class="form-group mb-2">
-                                <span class="edadPersona">50 años</span>
-                            </div>
-                        </li>
+                        <template id="liProfesor">
+                            <li
+                                class="p-2 card p-3 bg-black text-light profesor mb-3"
+                                data-id="0"
+                            >
+                                <input
+                                    type="hidden"
+                                    class="idPersona"
+                                    value="0"
+                                />
+                                <div class="form-group mb-2">
+                                    <span
+                                        class="text-primary h5 my-0 text-light nombrePersona"
+                                        >Pedro</span
+                                    >
+                                </div>
+                                <div class="form-group mb-2">
+                                    <span class="categoriaPersona"
+                                        >Profesor</span
+                                    >
+                                </div>
+                                <div class="form-group mb-2">
+                                    <span class="edadPersona">50 años</span>
+                                </div>
+                            </li>
+                        </template>
                     </ul>
                 </div>
             </section>
