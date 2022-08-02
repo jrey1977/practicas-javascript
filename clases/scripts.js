@@ -22,14 +22,30 @@ class Persona {
 
 class Estudiante extends Persona {
     estado = "suspendido";
+}
 
-    cambiar_estado = function () {
-        if (this.estado === "suspendido") {
-            this.estado === "aprobado";
-        } else {
-            this.estado === "suspendido";
+function cambiar_estado(estado) {
+    if (estado === "suspendido") {
+        return "aprobado";
+    } else {
+        return "suspendido";
+    }
+};
+
+function cambiarEstado(e){
+    let id_persona = e.dataset.idPersona;
+    listadoEstudiantes.forEach( (item, index)=> {
+        console.log('Item id', item.id);
+        console.log('item persona es ',id_persona);
+        if (item.id == id_persona){
+            console.log('viejo estado es ', listadoEstudiantes[index].estado);
+            var nuevo_estado = cambiar_estado(listadoEstudiantes[index].estado);
+            console.log('nuevo estado es ',nuevo_estado); 
+            listadoEstudiantes[index].estado = nuevo_estado;
+            console.log('Listado actualizado:', listadoEstudiantes);
+            document.querySelector('.estadoAlumno').dataset.idPersona(id_persona).textContent = nuevo_estado;
         }
-    };
+    });
 }
 
 window.onload = function () {
@@ -47,7 +63,11 @@ window.onload = function () {
     const liProfesor = document.querySelector("#liProfesor");
     const profesor = liProfesor.cloneNode(true);
 
-    // Listado Estudiantes y oprofesores
+    // Botón aprobar y reprobar
+    const botonAprobar = document.querySelectorAll(".btnAprobar");
+    const botonSuspender = document.querySelectorAll(".btnSuspender");
+
+    // Listado Estudiantes y profesores
     const listadoEstudiantesSelector = document.querySelector(
         "#listadoEstudiantes"
     );
@@ -61,7 +81,6 @@ window.onload = function () {
     function meterObjeto(nombre, edad, tipoPersona, idPersona) {
         plantillaTipoPersona =
             "li" + (tipoPersona[0].toUpperCase() + tipoPersona.substring(1));
-        console.log("plantillaTipoPersona", plantillaTipoPersona);
         const tipoPersonaSelector = document.querySelector(
             `#${plantillaTipoPersona}`
         );
@@ -70,8 +89,9 @@ window.onload = function () {
         clone.querySelector(".nombrePersona").textContent = nombre;
         clone.querySelector(".categoriaPersona").textContent = tipoPersona;
         clone.querySelector(".edadPersona").textContent = edad;
-        clone.querySelector(".idPersona").value = idPersona;
-
+        clone.querySelectorAll(".idPersona").forEach((boton, index) => {
+            boton.dataset.idPersona = idPersona;
+        });
         fragment.appendChild(clone);
         if (tipoPersona === "estudiante") {
             listadoEstudiantesSelector.appendChild(fragment);
@@ -89,19 +109,19 @@ window.onload = function () {
         if (tipoPersona === "estudiante") {
             let estudiante = new Estudiante(nombre, edad, tipoPersona);
             idPersona = estudiante.id;
-            console.log("La id es ", idPersona);
             listadoEstudiantes.push(estudiante);
         } else {
             let profesor = new Persona(nombre, edad, tipoPersona);
             idPersona = profesor.id;
-            console.log("La id es ", idPersona);
             listadoProfesores.push(profesor);
         }
 
         meterObjeto(nombre, edad, tipoPersona, idPersona);
-        console.log("Listado de estudiantes:", listadoEstudiantes);
-        console.log("Listado de profesores:", listadoProfesores);
 
         // TO DO: Meter elementos en listados
     });
+
+    
+
+
 };
