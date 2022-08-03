@@ -30,21 +30,32 @@ function cambiar_estado(estado) {
     } else {
         return "suspendido";
     }
-};
+}
 
-function cambiarEstado(e){
+function cambiarEstado(e) {
     let id_persona = e.dataset.idPersona;
-    listadoEstudiantes.forEach( (item, index)=> {
-        console.log('Item id', item.id);
-        console.log('item persona es ',id_persona);
-        if (item.id == id_persona){
-            console.log('viejo estado es ', listadoEstudiantes[index].estado);
+    document.getElementById("listadoEstudiantes").textContent = "";
+    listadoEstudiantes.forEach((item, index) => {
+        if (item.id == id_persona) {
             var nuevo_estado = cambiar_estado(listadoEstudiantes[index].estado);
-            console.log('nuevo estado es ',nuevo_estado); 
             listadoEstudiantes[index].estado = nuevo_estado;
-            console.log('Listado actualizado:', listadoEstudiantes);
-            document.querySelector('.estadoAlumno').dataset.idPersona(id_persona).textContent = nuevo_estado;
         }
+        const listadoEstudiantesSelector2 = document.querySelector(
+            "#listadoEstudiantes"
+        );
+        const liEstudiante2 = document.querySelector("#liEstudiante");
+        const estudiante2 = liEstudiante2.cloneNode(true);
+        const fragment2 = document.createDocumentFragment();
+        const clone2 = liEstudiante2.content.cloneNode(true);
+        clone2.querySelector(".nombrePersona").textContent = item.nombre;
+        clone2.querySelector(".categoriaPersona").textContent = item.tipo;
+        clone2.querySelector(".edadPersona").textContent = item.edad;
+        clone2.querySelectorAll(".idPersona").forEach((boton, index) => {
+            boton.dataset.idPersona = item.id;
+        });
+        clone2.querySelector(".estadoAlumno").textContent = item.estado;
+        fragment2.appendChild(clone2);
+        listadoEstudiantesSelector2.appendChild(fragment2);
     });
 }
 
@@ -85,7 +96,6 @@ window.onload = function () {
             `#${plantillaTipoPersona}`
         );
         const clone = tipoPersonaSelector.content.cloneNode(true);
-        console.log("clone", clone);
         clone.querySelector(".nombrePersona").textContent = nombre;
         clone.querySelector(".categoriaPersona").textContent = tipoPersona;
         clone.querySelector(".edadPersona").textContent = edad;
@@ -120,8 +130,4 @@ window.onload = function () {
 
         // TO DO: Meter elementos en listados
     });
-
-    
-
-
 };
