@@ -1,148 +1,142 @@
-const formulario = document.querySelector("#formulario");
-const cardsEstudiantes = document.querySelector("#cardsEstudiantes");
-const cardsProfesores = document.querySelector("#cardsProfesores");
-const templateEstudiante = document.querySelector(
-    "#templateEstudiante"
-).content;
-const templateProfesor = document.querySelector("#templateProfesor").content;
-const alert = document.querySelector(".alert");
+// Selectores
+const formulario = document.getElementById("formulario");
+const listadoEstudiantes = document.querySelector("#cardsEstudiantes");
+const listadoProfesores = document.querySelector("#cardsProfesores");
+const templateEstudiante =
+    document.getElementById("templateEstudiante").content;
+const templateProfesor = document.getElementById("templateProfesor").content;
 
-const estudiantes = [];
-const profesores = [];
+// Arrays
+const arrayEstudiantes = [];
+const arrayProfesores = [];
 
+// Delegación de eventos
 document.addEventListener("click", (e) => {
-    // preguntamos por uid
-    if (e.target.dataset.uid) {
+    if (e.target.dataset.id) {
         if (e.target.matches(".btn-success")) {
-            estudiantes.map((item) => {
-                // modificamos en caso de que sea true
-                if (item.uid === e.target.dataset.uid) {
+            arrayEstudiantes.map((item) => {
+                if (item.id === e.target.dataset.id) {
                     item.setEstado = true;
                 }
-                // console.log(item);
                 return item;
             });
         }
+
         if (e.target.matches(".btn-danger")) {
-            estudiantes.map((item) => {
-                if (item.uid === e.target.dataset.uid) {
+            arrayEstudiantes.map((item) => {
+                if (item.id === e.target.dataset.id) {
                     item.setEstado = false;
                 }
-                console.log(item);
                 return item;
             });
         }
-        Persona.pintarPersonaUI(estudiantes, "Estudiante");
+
+        Persona.imprimirListados(arrayEstudiantes, "Estudiante");
     }
 });
 
+// Clases
 class Persona {
     constructor(nombre, edad) {
         this.nombre = nombre;
         this.edad = edad;
-        // agregamos uid
-        this.uid = `${Date.now()}`;
+        this.id = `${Date.now()}`;
     }
 
-    static pintarPersonaUI(personas, tipo) {
+    static imprimirListados(personas, tipo) {
+        const fragment = document.createDocumentFragment();
+
         if (tipo === "Estudiante") {
-            cardsEstudiantes.textContent = "";
-            const fragment = document.createDocumentFragment();
-
+            listadoEstudiantes.textContent = "";
             personas.forEach((item) => {
-                fragment.appendChild(item.agregarNuevoEstudiante());
+                console.log("Clone", item.agregarEstudiante());
+                fragment.appendChild(item.agregarEstudiante());
             });
 
-            cardsEstudiantes.appendChild(fragment);
+            listadoEstudiantes.appendChild(fragment);
         }
-
         if (tipo === "Profesor") {
-            cardsProfesores.textContent = "";
-            const fragment = document.createDocumentFragment();
-            personas.forEach((item) => {
-                fragment.appendChild(item.agregarNuevoProfesor());
+            listadoProfesores.textContent = "";
+            personas.forEach((profesor) => {
+                fragment.appendChild(profesor.agregarProfesor());
             });
-            cardsProfesores.appendChild(fragment);
+
+            listadoProfesores.appendChild(fragment);
         }
     }
 }
 
 class Estudiante extends Persona {
+    #tipo = "Estudiante";
     #estado = false;
-    #estudiante = "Estudiante";
 
+    get getTipo() {
+        return this.#tipo;
+    }
+
+    /**
+     * @param {boolean} estado
+     */
     set setEstado(estado) {
         this.#estado = estado;
     }
 
-    get getEstudiante() {
-        return this.#estudiante;
-    }
-
-    agregarNuevoEstudiante() {
+    agregarEstudiante() {
         const clone = templateEstudiante.cloneNode(true);
 
-        clone.querySelector("h5 .text-primary").textContent = this.nombre;
-        clone.querySelector("h6").textContent = this.getEstudiante;
-        clone.querySelector(".lead").textContent = this.edad;
-
+        clone.querySelector(".text-primary").textContent = this.nombre;
+        clone.querySelector(".badge").textContent = this.#estado
+            ? "Aprobado"
+            : "Suspendido";
         if (this.#estado) {
             clone.querySelector(".badge").className = "badge bg-success";
             clone.querySelector(".btn-success").disabled = true;
             clone.querySelector(".btn-danger").disabled = false;
         } else {
             clone.querySelector(".badge").className = "badge bg-danger";
-            clone.querySelector(".btn-danger").disabled = true;
             clone.querySelector(".btn-success").disabled = false;
+            clone.querySelector(".btn-danger").disabled = true;
         }
-        clone.querySelector(".badge").textContent = this.#estado
-            ? "Aprobado"
-            : "Reprobado";
-
-        // reemplaze por uid
-        clone.querySelector(".btn-success").dataset.uid = this.uid;
-        clone.querySelector(".btn-danger").dataset.uid = this.uid;
+        clone.querySelector("h6").textContent = this.getTipo;
+        clone.querySelector(".lead").textContent = this.edad;
+        clone.querySelector(".btn-success").dataset.id = this.id;
+        clone.querySelector(".btn-danger").dataset.id = this.id;
 
         return clone;
     }
 }
 
 class Profesor extends Persona {
-    #profesor = "Profesor";
+    #tipo = "Profesor";
 
-    agregarNuevoProfesor() {
+    agregarProfesor() {
         const clone = templateProfesor.cloneNode(true);
+
         clone.querySelector("h5").textContent = this.nombre;
-        clone.querySelector("h6").textContent = this.#profesor;
+        clone.querySelector("h6").textContent = this.#tipo;
         clone.querySelector(".lead").textContent = this.edad;
+
         return clone;
     }
 }
 
 formulario.addEventListener("submit", (e) => {
     e.preventDefault();
-    alert.classList.add("d-none");
 
     const datos = new FormData(formulario);
-
     const [nombre, edad, opcion] = [...datos.values()];
-
-    // validación de campos vacíos
-    if (!nombre.trim() || !edad.trim() || !opcion.trim()) {
-        console.log("Elemento vacío");
-        alert.classList.remove("d-none");
-        return;
-    }
 
     if (opcion === "Estudiante") {
         const estudiante = new Estudiante(nombre, edad);
-        estudiantes.push(estudiante);
-        Persona.pintarPersonaUI(estudiantes, opcion);
+        arrayEstudiantes.push(estudiante);
+        console.log("arrayEstudiantes", arrayEstudiantes);
+        Persona.imprimirListados(arrayEstudiantes, opcion);
     }
 
     if (opcion === "Profesor") {
         const profesor = new Profesor(nombre, edad);
-        profesores.push(profesor);
-        Persona.pintarPersonaUI(profesores, opcion);
+        arrayProfesores.push(profesor);
+        console.log("arrayProfesores", arrayProfesores);
+        Persona.imprimirListados(arrayProfesores, opcion);
     }
 });
