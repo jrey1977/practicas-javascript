@@ -29,6 +29,7 @@ document.addEventListener("click", (e) => {
                 }
                 return item;
             });
+            const result = words.filter((word) => word.length > 6);
         }
 
         Persona.imprimirListados(arrayEstudiantes, "Estudiante");
